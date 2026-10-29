@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BarrelRoad - Calculadora de Custos de Viagem, Provas e Premiações nos Três Tambores com balanço de lucros e prejuízos.">
+  <title>BarrelRoad | Calculadora Financeira dos Três Tambores</title>
+
+  <!-- Favicon Nativo em SVG com emoji equestre -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐎</text></svg>">
+
+  <!-- Fontes do Google: Cinzel (Nobreza/Equestre) + Plus Jakarta Sans (Alta legibilidade de dados) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Folha de Estilos Externa com versionamento para evitar cache -->
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+
+  <!-- CABEÇALHO PRINCIPAL -->
+  <header class="main-header">
+    <div class="container header-container">
+      
+      <div class="brand-area">
+        <div class="brand-icon" aria-hidden="true">🐎</div>
+        <div>
+          <div class="brand-badge">Três Tambores Pro</div>
+          <h1 class="brand-title">BarrelRoad</h1>
+          <p class="brand-subtitle">Gestão Financeira de Viagens, Inscrições & Premiações</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="season-badge" id="seasonDisplay">
+          <span class="season-label">Temporada Competitiva</span>
+          <strong class="season-year" id="currentYear">2026</strong>
+        </div>
+
+        <button type="button" class="btn-header-action" id="btnPrintReport" title="Imprimir Relatório da Temporada">
+          🖨️ Imprimir
+        </button>
+        <button type="button" class="btn-header-action" id="btnExportCsv" title="Exportar dados para planilha Excel / CSV">
+          📊 Exportar CSV
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="container main-content">
+
+    <!-- SEÇÃO 1: DASHBOARD FINANCEIRO GLOBAL -->
+    <section class="dashboard-section" aria-label="Painel Financeiro Geral">
+      <div class="dashboard-grid">
+        
+        <!-- Card 1: Total Gasto em Viagens/Custos -->
+        <article class="dash-card dash-card--expense">
+          <div class="dash-card__header">
+            <span class="dash-card__label">Total Investido (Gastos)</span>
+            <span class="dash-card__icon" aria-hidden="true">💸</span>
+          </div>
+          <strong class="dash-card__value text-expense" id="statTotalExpense">R$ 0,00</strong>
+          <span class="dash-card__meta" id="statExpenseBreakdown">Inscrições + Baias + Viagens</span>
+        </article>
+
+        <!-- Card 2: Total Ganho em Premiações -->
+        <article class="dash-card dash-card--prize">
+          <div class="dash-card__header">
+            <span class="dash-card__label">Premiações Conquistadas</span>
+            <span class="dash-card__icon" aria-hidden="true">🏆</span>
+          </div>
+          <strong class="dash-card__value text-prize" id="statTotalPrize">R$ 0,00</strong>
+          <span class="dash-card__meta" id="statPrizeCount">0 etapas premiadas</span>
+        </article>
+
+        <!-- Card 3: Balanço Final (Lucro ou Prejuízo) -->
+        <article class="dash-card dash-card--balance" id="cardBalance">
+          <div class="dash-card__header">
+            <span class="dash-card__label">Balanço Final da Temporada</span>
+            <span class="dash-card__icon" id="balanceIcon" aria-hidden="true">⚖️</span>
+          </div>
+          <strong class="dash-card__value" id="statNetBalance">R$ 0,00</strong>
+          <span class="balance-tag" id="balanceTag">Calculando...</span>
+        </article>
+
+        <!-- Card 4: Estatísticas de Desempenho / Provas -->
+        <article class="dash-card dash-card--info">
+          <div class="dash-card__header">
+            <span class="dash-card__label">Etapas & Rentabilidade</span>
+            <span class="dash-card__icon" aria-hidden="true">📊</span>
+          </div>
+          <div class="metrics-row">
+            <div>
+              <span class="metric-mini-label">Etapas</span>
+              <strong class="metric-mini-val" id="statTotalRaces">0</strong>
+            </div>
+            <div>
+              <span class="metric-mini-label">Com Lucro</span>
+              <strong class="metric-mini-val text-success" id="statProfitableRaces">0</strong>
+            </div>
+            <div>
+              <span class="metric-mini-label">No Prejuízo</span>
+              <strong class="metric-mini-val text-danger" id="statLossRaces">0</strong>
+            </div>
+          </div>
+          <span class="dash-card__meta" id="statRoiMeta">ROI da Temporada: 0%</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: BARRA DE AÇÕES, FILTROS E BUSCA -->
+    <section class="controls-section" aria-label="Controles e Filtros">
+      <div class="controls-wrapper">
+        
+        <!-- Botão Abrir Formulário -->
+        <button type="button" class="btn btn--primary" id="btnToggleForm" aria-expanded="false" aria-controls="formSection">
+          <span class="btn__icon" aria-hidden="true">➕</span>
+          <span id="btnToggleText">Lançar Nova Prova / Etapa</span>
+        </button>
+
+        <!-- Filtros por Status Financeiro -->
+        <div class="filter-chips-group" role="group" aria-label="Filtrar provas por resultado">
+          <button type="button" class="chip active" data-filter="all">
+            Todas as Etapas <span class="chip-count" id="countAll">0</span>
+          </button>
+          <button type="button" class="chip chip--profit" data-filter="profit">
+            🟢 Com Lucro <span class="chip-count" id="countProfit">0</span>
+          </button>
+          <button type="button" class="chip chip--loss" data-filter="loss">
+            🔴 No Prejuízo <span class="chip-count" id="countLoss">0</span>
+          </button>
+          <button type="button" class="chip chip--neutral" data-filter="neutral">
+            ⚪ Neutras / Sem Premiação <span class="chip-count" id="countNeutral">0</span>
+          </button>
+        </div>
+
+        <!-- Campo de Pesquisa em Tempo Real -->
+        <div class="search-field">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input 
+            type="search" 
+            id="searchInput" 
+            placeholder="Buscar por prova, haras, cidade ou animal..." 
+            aria-label="Buscar etapas"
+            autocomplete="off"
+          >
+          <button type="button" id="btnClearSearch" class="btn-clear-search" title="Limpar busca" aria-label="Limpar busca" style="display:none;">&times;</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 3: FORMULÁRIO DE LANÇAMENTO / EDIÇÃO DE ETAPAS -->
+    <section id="formSection" class="form-container form-card hidden" aria-labelledby="formHeading">
+      
+      <div class="form-header">
+        <div>
+          <h2 id="formHeading" class="form-title">Lançamento Financeiro de Etapa</h2>
+          <p class="form-subtitle">Informe os custos de viagem, baias e premiações conquistadas para calcular o balanço real.</p>
+        </div>
+        <button type="button" class="btn-close" id="btnCloseForm" aria-label="Fechar formulário">&times;</button>
+      </div>
+
+      <form id="raceForm" novalidate>
+        <!-- ID oculto para modo de edição -->
+        <input type="hidden" id="raceId" value="">
+
+        <div class="form-grid">
+
+          <!-- 1. Nome da Prova / Evento -->
+          <div class="form-group form-group--span2">
+            <label for="raceName" class="form-label">
+              Nome da Prova / Campeonato <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="raceName" 
+              class="form-control" 
+              placeholder="Ex: Grand Prix Haras Raphaela, Copa Rosa Mística, NBHA..." 
+              required
+              maxlength="70"
+            >
+            <small class="form-error" id="errorRaceName" role="alert"></small>
+          </div>
+
+          <!-- 2. Haras / Cidade / UF -->
+          <div class="form-group">
+            <label for="raceLocation" class="form-label">
+              Haras & Cidade/UF <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="raceLocation" 
+              class="form-control" 
+              placeholder="Ex: Haras Raphaela - Tietê/SP" 
+              required
+              maxlength="60"
+            >
+            <small class="form-error" id="errorRaceLocation" role="alert"></small>
+          </div>
+
+          <!-- 3. Data da Prova -->
+          <div class="form-group">
+            <label for="raceDate" class="form-label">
+              Data da Etapa <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="date" 
+              id="raceDate" 
+              class="form-control" 
+              required
+            >
+            <small class="form-error" id="errorRaceDate" role="alert"></small>
+          </div>
+
+          <!-- 4. Valor da Inscrição (R$) -->
+          <div class="form-group">
+            <label for="costEntry" class="form-label">
+              Valor das Inscrições (R$) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <div class="input-currency-wrapper">
+              <span class="currency-prefix">R$</span>
+              <input 
+                type="number" 
+                id="costEntry" 
+                class="form-control input-currency" 
+                placeholder="0,00" 
+                min="0" 
+                step="0.01" 
+                required
+              >
+            </div>
+            <small class="form-hint">Soma de todas as passadas/categorias inscritas.</small>
+            <small class="form-error" id="errorCostEntry" role="alert"></small>
+          </div>
+
+          <!-- 5. Custo da Baia e Trato (R$) -->
+          <div class="form-group">
+            <label for="costStall" class="form-label">
+              Custo da Baia & Trato (R$)
+            </label>
+            <div class="input-currency-wrapper">
+              <span class="currency-prefix">R$</span>
+              <input 
+                type="number" 
+                id="costStall" 
+                class="form-control input-currency" 
+                placeholder="0,00" 
+                min="0" 
+                step="0.01"
+              >
+            </div>
+            <small class="form-hint">Aluguel da baia, maravalha, feno e alimentação.</small>
+            <small class="form-error" id="errorCostStall" role="alert"></small>
+          </div>
+
+          <!-- 6. Gastos de Viagem / Combustível (R$) -->
+          <div class="form-group">
+            <label for="costTravel" class="form-label">
+              Viagem & Combustível (R$)
+            </label>
+            <div class="input-currency-wrapper">
+              <span class="currency-prefix">R$</span>
+              <input 
+                type="number" 
+                id="costTravel" 
+                class="form-control input-currency" 
+                placeholder="0,00" 
+                min="0" 
+                step="0.01"
+              >
+            </div>
+            <small class="form-hint">Diesel, pedágios, alimentação da equipe e frete.</small>
+            <small class="form-error" id="errorCostTravel" role="alert"></small>
+          </div>
+
+          <!-- 7. Premiação Ganha (R$) -->
+          <div class="form-group">
+            <label for="prizeWon" class="form-label">
+              Premiação Ganha na Prova (R$)
+            </label>
+            <div class="input-currency-wrapper input-currency-wrapper--prize">
+              <span class="currency-prefix text-prize-prefix">R$</span>
+              <input 
+                type="number" 
+                id="prizeWon" 
+                class="form-control input-currency input-currency--prize" 
+                placeholder="0,00" 
+                min="0" 
+                step="0.01"
+              >
+            </div>
+            <small class="form-hint">Total recebido em dinheiro ou cheque no pódio.</small>
+            <small class="form-error" id="errorPrizeWon" role="alert"></small>
+          </div>
+
+          <!-- 8. Detalhes Adicionais (Animal, Categoria, Notas) -->
+          <div class="form-group form-group--span2">
+            <label for="raceNotes" class="form-label">
+              Observações / Animal / Categoria (Opcional)
+            </label>
+            <input 
+              type="text" 
+              id="raceNotes" 
+              class="form-control" 
+              placeholder="Ex: Animal: Zorrero Dash; Categoria: Aberta Jr (Tempo: 16.890s); 2º Lugar..."
+              maxlength="120"
+            >
+          </div>
+
+        </div>
+
+        <!-- PRÉVIA FINANCEIRA EM TEMPO REAL NO FORMULÁRIO -->
+        <div class="form-live-preview" id="formLivePreview" aria-live="polite">
+          <div class="preview-item">
+            <span class="preview-label">Custo Total Calculado:</span>
+            <strong class="preview-val text-expense" id="previewTotalCost">R$ 0,00</strong>
+          </div>
+          <div class="preview-divider">−</div>
+          <div class="preview-item">
+            <span class="preview-label">Premiação Ganha:</span>
+            <strong class="preview-val text-prize" id="previewPrize">R$ 0,00</strong>
+          </div>
+          <div class="preview-divider">=</div>
+          <div class="preview-item">
+            <span class="preview-label">Resultado Estimado da Etapa:</span>
+            <strong class="preview-val" id="previewBalance">R$ 0,00 (Neutro)</strong>
+          </div>
+        </div>
+
+        <!-- BOTÕES DO FORMULÁRIO -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn--success" id="btnSubmitForm">
+            <span class="btn__icon" aria-hidden="true">💾</span>
+            <span id="btnSubmitText">Salvar Lançamento da Etapa</span>
+          </button>
+          <button type="button" class="btn btn--outline" id="btnCancelForm">
+            Cancelar
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- SEÇÃO 4: LISTAGEM DE ETAPAS / CARDS -->
+    <section class="races-section" aria-label="Lista de Provas e Etapas">
+      
+      <div class="section-title-bar">
+        <div>
+          <h2 class="section-heading" id="listHeading">Histórico de Etapas & Viagens</h2>
+          <p class="section-subheading">Acompanhe detalhadamente o desempenho financeiro de cada prova disputada.</p>
+        </div>
+        
+        <!-- Legenda de Status Visual -->
+        <div class="financial-legend" aria-label="Legenda de resultados">
+          <span class="legend-badge legend-badge--profit">🟢 Lucro</span>
+          <span class="legend-badge legend-badge--loss">🔴 Prejuízo</span>
+          <span class="legend-badge legend-badge--neutral">⚪ Empatada / Sem Prêmio</span>
+        </div>
+      </div>
+
+      <!-- Container Dinâmico dos Cards -->
+      <div class="races-grid" id="racesContainer" role="region" aria-live="polite">
+        <!-- Injetado dinamicamente via script.js -->
+      </div>
+
+      <!-- Estado Vazio (quando não houver provas para o filtro selecionado) -->
+      <div class="empty-state hidden" id="emptyState">
+        <div class="empty-state__icon" aria-hidden="true">🛢️</div>
+        <h3 class="empty-state__title" id="emptyTitle">Nenhuma etapa encontrada</h3>
+        <p class="empty-state__description" id="emptyDescription">
+          Comece registrando os custos da sua próxima prova para manter o controle total do seu investimento nas pistas.
+        </p>
+        <button type="button" class="btn btn--primary" id="btnEmptyAdd">
+          ➕ Lançar Primeira Etapa
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ ACADÊMICO E INFORMATIVO -->
+  <footer class="main-footer">
+    <div class="container footer-content">
+      
+      <div class="footer-info">
+        <p class="footer-title"><strong>BarrelRoad</strong> &copy; Calculadora Financeira de Três Tambores</p>
+        <p class="footer-sub">Desenvolvido como projeto acadêmico de aplicação web responsiva sem backend com persistência local (LocalStorage).</p>
+      </div>
+
+      <div class="footer-meta">
+        <div class="storage-badge" title="Persistência ativa no seu navegador">
+          <span class="storage-dot"></span> Dados salvos localmente
+        </div>
+        <button type="button" class="btn-text-danger" id="btnResetData" title="Restaura os dados de exemplo padrão">
+          Restaurar Dados de Exemplo
+        </button>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ÁREA DE NOTIFICAÇÕES FLUTUANTES (TOASTS) -->
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- SCRIPT EXTERNO JAVASCRIPT com versionamento para evitar cache -->
+  <script src="script.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,1318 @@
+/* ==========================================================================
+   BARRELROAD - FOLHA DE ESTILOS CSS3
+   Design Moderno & Profissional com Identidade Equestre / Três Tambores
+   Layout 100% Responsivo, Variáveis CSS (Custom Tokens), CSS Grid & Flexbox
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIÁVEIS DO SISTEMA (DESIGN TOKENS)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Cores Temáticas Principais (Couro Nobre, Ouro e Areia) */
+  --primary: #78350f;          /* Bronze Couro Western */
+  --primary-hover: #59250b;
+  --primary-light: #fef3c7;    /* Âmbar Suave */
+  --primary-contrast: #ffffff;
+
+  --accent-gold: #d97706;      /* Dourado Troféu / Premiação */
+  --accent-gold-dark: #b45309;
+  --accent-gold-light: #fffbeb;
+
+  /* Status Financeiro Semântico */
+  /* 🟢 Verde: Prova com Lucro / Superávit */
+  --color-profit: #15803d;
+  --color-profit-bg: #dcfce7;
+  --color-profit-border: #86efac;
+  --color-profit-dark: #14532d;
+
+  /* 🔴 Vermelho: Prova no Prejuízo / Déficit */
+  --color-loss: #dc2626;
+  --color-loss-bg: #fee2e2;
+  --color-loss-border: #fca5a5;
+  --color-loss-dark: #7f1d1d;
+
+  /* ⚪ Cinza / Areia: Prova Neutra / Empatada / Sem Prêmio */
+  --color-neutral: #64748b;
+  --color-neutral-bg: #f1f5f9;
+  --color-neutral-border: #cbd5e1;
+  --color-neutral-dark: #334155;
+
+  /* Superfícies e Fundos */
+  --bg-page: #f9f6f0;          /* Tom areia quente esportivo */
+  --bg-card: #ffffff;
+  --bg-subtle: #f4ece1;
+  --border-ui: #e6ded4;
+  --border-focus: #d97706;
+
+  /* Tipografia */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: 'Cinzel', Georgia, serif;
+  --text-main: #1c1917;        /* Preto quente pedra */
+  --text-muted: #78716c;       /* Muted quente */
+  --text-subtle: #a8a29e;
+
+  /* Sombras e Elevação */
+  --shadow-sm: 0 1px 3px rgba(44, 24, 16, 0.06);
+  --shadow-md: 0 4px 10px -1px rgba(44, 24, 16, 0.08), 0 2px 4px -2px rgba(44, 24, 16, 0.04);
+  --shadow-lg: 0 12px 20px -3px rgba(44, 24, 16, 0.1), 0 4px 6px -4px rgba(44, 24, 16, 0.05);
+
+  /* Arredondamento */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Transições */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET E NORMAS GLOBAIS
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. CABEÇALHO PRINCIPAL
+   -------------------------------------------------------------------------- */
+.main-header {
+  background: linear-gradient(135deg, #2e180d 0%, #4a2713 50%, #2e180d 100%);
+  color: #ffffff;
+  border-bottom: 3px solid var(--accent-gold);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-icon {
+  font-size: 2.25rem;
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.brand-badge {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  margin-bottom: 0.15rem;
+}
+
+.brand-title {
+  font-family: var(--font-serif);
+  font-size: 1.625rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: #fffdf9;
+}
+
+.brand-subtitle {
+  font-size: 0.8125rem;
+  color: #d6cfc7;
+  font-weight: 400;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-header-action {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  color: #fffdf9;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-header-action:hover {
+  background: var(--accent-gold);
+  color: #2e180d;
+  border-color: var(--accent-gold);
+}
+
+.season-badge {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-md);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.season-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  color: #e2d9cd;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.season-year {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  line-height: 1.2;
+}
+
+/* --------------------------------------------------------------------------
+   4. CONTEÚDO PRINCIPAL & DASHBOARD FINANCEIRO
+   -------------------------------------------------------------------------- */
+.main-content {
+  flex: 1;
+  padding-top: 2rem;
+  padding-bottom: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.dash-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.dash-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.dash-card__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dash-card__icon {
+  font-size: 1.35rem;
+}
+
+.dash-card__value {
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.dash-card__meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Cores específicas dos cards */
+.text-expense {
+  color: #b91c1c;
+}
+
+.text-prize {
+  color: #15803d;
+}
+
+.dash-card--expense {
+  border-left: 5px solid #dc2626;
+}
+
+.dash-card--prize {
+  border-left: 5px solid #16a34a;
+}
+
+.dash-card--balance {
+  border-left: 5px solid var(--accent-gold);
+}
+
+.dash-card--info {
+  border-left: 5px solid var(--primary);
+}
+
+.balance-tag {
+  align-self: flex-start;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  margin-top: 0.25rem;
+}
+
+.balance-tag--profit {
+  background-color: var(--color-profit-bg);
+  color: var(--color-profit-dark);
+  border: 1px solid var(--color-profit-border);
+}
+
+.balance-tag--loss {
+  background-color: var(--color-loss-bg);
+  color: var(--color-loss-dark);
+  border: 1px solid var(--color-loss-border);
+}
+
+.balance-tag--neutral {
+  background-color: var(--color-neutral-bg);
+  color: var(--color-neutral-dark);
+  border: 1px solid var(--color-neutral-border);
+}
+
+.metrics-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed var(--border-ui);
+}
+
+.metric-mini-label {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.metric-mini-val {
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.text-success { color: var(--color-profit); }
+.text-danger { color: var(--color-loss); }
+
+/* --------------------------------------------------------------------------
+   5. BARRA DE AÇÕES, FILTROS E BUSCA
+   -------------------------------------------------------------------------- */
+.controls-section {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius-lg);
+  padding: 1.125rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.controls-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Pílulas de Filtros */
+.filter-chips-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  border: 1px solid var(--border-ui);
+  padding: 0.45rem 0.875rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all var(--transition-fast);
+}
+
+.chip:hover {
+  border-color: var(--primary);
+  background: #ede3d5;
+}
+
+.chip.active {
+  background: var(--primary);
+  color: var(--primary-contrast);
+  border-color: var(--primary);
+  box-shadow: 0 2px 6px rgba(120, 53, 15, 0.25);
+}
+
+.chip-count {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.chip.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* Campo de Pesquisa */
+.search-field {
+  position: relative;
+  min-width: 280px;
+  flex-grow: 1;
+  max-width: 360px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 0.6rem 2.25rem 0.6rem 2.4rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-ui);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+}
+
+.search-field input:focus {
+  background-color: #ffffff;
+  border-color: var(--border-focus);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. BOTÕES DO SISTEMA
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn--primary {
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.btn--primary:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.3);
+}
+
+.btn--success {
+  background-color: var(--color-profit);
+  color: #ffffff;
+}
+
+.btn--success:hover {
+  background-color: #14532d;
+  box-shadow: 0 4px 10px rgba(21, 128, 61, 0.3);
+}
+
+.btn--outline {
+  background-color: transparent;
+  border-color: var(--border-ui);
+  color: var(--text-main);
+}
+
+.btn--outline:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--text-muted);
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  transition: all var(--transition-fast);
+}
+
+.btn-close:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.btn-text-danger {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.btn-text-danger:hover {
+  color: var(--color-loss);
+}
+
+/* --------------------------------------------------------------------------
+   7. FORMULÁRIO DE LANÇAMENTO / EDIÇÃO
+   -------------------------------------------------------------------------- */
+.form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-md);
+}
+
+.form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-ui);
+}
+
+.form-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.form-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group--span2 {
+  grid-column: span 2;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.required {
+  color: var(--color-loss);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.875rem;
+  border: 1.5px solid var(--border-ui);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  color: var(--text-main);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus {
+  border-color: var(--border-focus);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+.form-control.is-invalid {
+  border-color: var(--color-loss);
+  background-color: #fff9f9;
+}
+
+/* Campo com Prefixo R$ */
+.input-currency-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-prefix {
+  position: absolute;
+  left: 0.875rem;
+  font-weight: 800;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.input-currency {
+  padding-left: 2.5rem;
+}
+
+.input-currency-wrapper--prize .currency-prefix {
+  color: var(--color-profit);
+}
+
+.input-currency--prize:focus {
+  border-color: var(--color-profit);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--color-loss);
+  font-weight: 600;
+  min-height: 1rem;
+}
+
+/* Painel de Prévia em Tempo Real no Formulário */
+.form-live-preview {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--bg-subtle);
+  border: 1px dashed var(--accent-gold);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0.75rem;
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.preview-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.preview-val {
+  font-size: 1.125rem;
+  font-weight: 800;
+  margin-top: 0.15rem;
+}
+
+.preview-divider {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-ui);
+}
+
+/* --------------------------------------------------------------------------
+   8. LISTAGEM DE ETAPAS / CARDS DOS TRÊS TAMBORES
+   -------------------------------------------------------------------------- */
+.section-title-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-heading {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.section-subheading {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.financial-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-card);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.legend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.legend-badge--profit {
+  background: var(--color-profit-bg);
+  color: var(--color-profit-dark);
+}
+
+.legend-badge--loss {
+  background: var(--color-loss-bg);
+  color: var(--color-loss-dark);
+}
+
+.legend-badge--neutral {
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral-dark);
+}
+
+/* Grid de Cards */
+.races-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Card Individual de Etapa */
+.race-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.race-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.race-card.status-profit {
+  border-top: 5px solid var(--color-profit);
+}
+
+.race-card.status-loss {
+  border-top: 5px solid var(--color-loss);
+}
+
+.race-card.status-neutral {
+  border-top: 5px solid var(--color-neutral);
+}
+
+.race-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.race-card__title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.race-card__location {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-status {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.badge-status--profit {
+  background-color: var(--color-profit-bg);
+  color: var(--color-profit-dark);
+  border: 1px solid var(--color-profit-border);
+}
+
+.badge-status--loss {
+  background-color: var(--color-loss-bg);
+  color: var(--color-loss-dark);
+  border: 1px solid var(--color-loss-border);
+}
+
+.badge-status--neutral {
+  background-color: var(--color-neutral-bg);
+  color: var(--color-neutral-dark);
+  border: 1px solid var(--color-neutral-border);
+}
+
+.race-card__meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-ui);
+}
+
+/* Detalhamento de Custos da Prova */
+.race-card__costs-box {
+  background: var(--bg-page);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+.cost-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  margin-bottom: 0.3rem;
+}
+
+.cost-row:last-child {
+  margin-bottom: 0;
+}
+
+.cost-label {
+  color: var(--text-muted);
+}
+
+.cost-value {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.cost-row--total {
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed var(--border-ui);
+  font-weight: 800;
+}
+
+.cost-row--total .cost-label {
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+.cost-row--total .cost-value {
+  color: #b91c1c;
+  font-size: 0.9375rem;
+}
+
+/* Caixa de Premiação e Balanço Final */
+.race-card__result-box {
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  margin-bottom: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1.5px solid var(--border-ui);
+}
+
+.result-profit {
+  background-color: #f6fef9;
+  border-color: var(--color-profit-border);
+}
+
+.result-loss {
+  background-color: #fff9f9;
+  border-color: var(--color-loss-border);
+}
+
+.result-neutral {
+  background-color: var(--bg-subtle);
+  border-color: var(--border-ui);
+}
+
+.result-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.result-val {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 0.1rem;
+}
+
+/* Observações do competidor */
+.race-card__notes {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--bg-subtle);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* Ações do Card */
+.race-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-ui);
+}
+
+.btn-card-action {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--border-ui);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-card-action:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  border-color: var(--text-muted);
+}
+
+.btn-card-action--delete:hover {
+  background: var(--color-loss-bg);
+  color: var(--color-loss);
+  border-color: var(--color-loss-border);
+}
+
+/* --------------------------------------------------------------------------
+   9. ESTADO VAZIO (EMPTY STATE)
+   -------------------------------------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: var(--bg-card);
+  border: 2px dashed var(--border-ui);
+  border-radius: var(--radius-lg);
+  max-width: 550px;
+  margin: 1.5rem auto;
+}
+
+.empty-state__icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state__title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state__description {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   10. SISTEMA DE NOTIFICAÇÕES (TOASTS)
+   -------------------------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 380px;
+  width: calc(100% - 3rem);
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-ui);
+  box-shadow: var(--shadow-lg);
+  animation: slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.toast--fadeout {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.toast__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.toast__body {
+  flex: 1;
+}
+
+.toast__title {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.toast__message {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.toast--success {
+  border-left: 4px solid var(--color-profit);
+}
+
+.toast--danger {
+  border-left: 4px solid var(--color-loss);
+}
+
+.toast--info {
+  border-left: 4px solid var(--accent-gold);
+}
+
+@keyframes slideInToast {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. RODAPÉ ACADÊMICO
+   -------------------------------------------------------------------------- */
+.main-footer {
+  margin-top: auto;
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-ui);
+  padding: 1.5rem 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.footer-title {
+  color: var(--text-main);
+}
+
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.storage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.storage-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-profit);
+  display: inline-block;
+  box-shadow: 0 0 0 2px var(--color-profit-bg);
+}
+
+/* --------------------------------------------------------------------------
+   12. MEDIA QUERIES (RESPONSIVIDADE 100%)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .season-badge {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .controls-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn--primary {
+    width: 100%;
+  }
+
+  .filter-chips-group {
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+  }
+
+  .search-field {
+    max-width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group--span2 {
+    grid-column: span 1;
+  }
+
+  .form-live-preview {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .preview-divider {
+    display: none;
+  }
+
+  .section-title-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .races-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    bottom: 1rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media print {
+  .main-header,
+  .controls-section,
+  .form-container,
+  .main-footer,
+  .btn,
+  .race-card__actions,
+  .toast-container {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .race-card {
+    box-shadow: none;
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+}
